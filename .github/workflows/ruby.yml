@@ -72,7 +72,7 @@ jobs:
       - name: Running KCL producer
         run: |
           cd samples
-          rake "run_producer[10]"
+          rake run_producer
 
       - name: Running KCL consumer (windows or ubuntu)
         if: ${{ matrix.os != 'macOS-latest'}}
