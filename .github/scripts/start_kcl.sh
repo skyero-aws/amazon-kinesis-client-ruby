@@ -6,17 +6,17 @@ chmod +x samples/sample_kcl.rb
 
 # Reset the values of checkpoint, leaseCounter, ownerSwitchesSinceCheckpoint, and leaseOwner in DynamoDB table
 #echo "Resetting checkpoint for shardId-000000000000"
-#aws dynamodb update-item \
-#  --table-name $APP_NAME \
-#  --key '{"leaseKey": {"S": "shardId-000000000000"}}' \
-#  --update-expression "SET checkpoint = :checkpoint, leaseCounter = :counter, ownerSwitchesSinceCheckpoint = :switches, leaseOwner = :owner" \
-#  --expression-attribute-values '{
-#    ":checkpoint": {"S": "TRIM_HORIZON"},
-#    ":counter": {"N": "0"},
-#    ":switches": {"N": "0"},
-#    ":owner": {"S": "AVAILABLE"}
-#  }' \
-#  --return-values NONE
+aws dynamodb update-item \
+  --table-name $APP_NAME \
+  --key '{"leaseKey": {"S": "shardId-000000000000"}}' \
+  --update-expression "SET checkpoint = :checkpoint, leaseCounter = :counter, ownerSwitchesSinceCheckpoint = :switches, leaseOwner = :owner" \
+  --expression-attribute-values '{
+    ":checkpoint": {"S": "TRIM_HORIZON"},
+    ":counter": {"N": "0"},
+    ":switches": {"N": "0"},
+    ":owner": {"S": "AVAILABLE"}
+  }' \
+  --return-values NONE 2>/dev/null || echo "DynamoDB table not found or update failed - KCL will create it"
 
 # Get records from stream to verify they exist before continuing
 SHARD_ITERATOR=$(aws kinesis get-shard-iterator --stream-name $STREAM_NAME --shard-id shardId-000000000000 --shard-iterator-type TRIM_HORIZON --query 'ShardIterator' --output text)
