@@ -119,6 +119,20 @@ jobs:
           STREAM_NAME: ${{ env.STREAM_NAME }}
           APP_NAME: ${{ env.APP_NAME }}
 
+      # Create kinesis stream with unique name and wait for it to exist
+      - name: Create and wait Kinesis stream
+        run: |
+          aws kinesis create-stream --stream-name ${{ env.STREAM_NAME }} --shard-count 1
+          aws kinesis wait stream-exists --stream-name ${{ env.STREAM_NAME }}
+
+      # Put words to sample stream with unique name based on run ID
+      - name: Put words to sample stream
+        run: |
+          chmod +x .github/scripts/put_words_to_stream.sh
+          .github/scripts/put_words_to_stream.sh
+        env:
+          STREAM_NAME: ${{ env.STREAM_NAME }}
+
 #      - name: Running KCL producer
 #        run: |
 #          cd samples
