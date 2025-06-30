@@ -95,7 +95,8 @@ jobs:
 
       - name: Install dependencies and run tests
         run: |
-          gem install bundler rake aws-sdk-kinesis
+          gem install bundler aws-sdk-kinesis
+          if [ "${{ matrix.os }}" != "windows-latest" ]; then gem install rake; fi
           bundle install
           bundle update --bundler
           bundle exec rspec
