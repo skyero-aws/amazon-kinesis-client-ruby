@@ -23,7 +23,7 @@ elif [[ "$RUNNER_OS" == "Windows" ]]; then
 
   echo '@echo off' > samples/run_script.bat
   echo 'ruby %~dp0\sample_kcl.rb %*' >> samples/run_script.bat
-  sed -i 's/executableName = sample_kcl.rb/executableName = samples\/run_script.bat/' samples/sample.properties
+  sed -i 's/executableName = sample_kcl.rb/executableName = run_script.bat/' samples/sample.properties
 else
   echo "Unknown OS: $RUNNER_OS"
   exit 1
