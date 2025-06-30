@@ -25,11 +25,11 @@ echo "Found $RECORD_COUNT_BEFORE records in stream before KCL start"
 
 if [[ "$RUNNER_OS" == "macOS" ]]; then
   brew install coreutils
-  gtimeout 900 rake run properties_file=sample.properties 2>&1 | tee kcl_output.log  || [ $? -eq 124 ]
+  (cd samples && gtimeout 900 rake run properties_file=sample.properties 2>&1 | tee kcl_output.log) || [ $? -eq 124 ]
 elif [[ "$RUNNER_OS" == "Linux" ]]; then
-  timeout 900 rake run properties_file=sample.properties 2>&1 | tee kcl_output.log || [ $? -eq 124 ]
+  (cd samples && gtimeout 900 rake run properties_file=sample.properties 2>&1 | tee kcl_output.log) || [ $? -eq 124 ]
 elif [[ "$RUNNER_OS" == "Windows" ]]; then
-  timeout 900 rake run properties_file=sample.properties 2>&1 | tee kcl_output.log || [ $? -eq 124 ]
+  (cd samples && gtimeout 900 rake run properties_file=sample.properties 2>&1 | tee kcl_output.log) || [ $? -eq 124 ]
 else
   echo "Unknown OS: $RUNNER_OS"
   exit 1
