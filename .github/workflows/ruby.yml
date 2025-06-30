@@ -65,7 +65,7 @@ jobs:
       matrix:
         ruby-version: [ '3.0', '3.4' ]
         jdk-version: [ "8", "11", "17", "21", "24" ]
-        os: [ ubuntu-latest, windows-latest ]
+        os: [ ubuntu-latest, macOS-latest, windows-latest ]
 
     steps:
       # For pull_request_target, checkout PR head instead of merge commit
@@ -95,7 +95,7 @@ jobs:
 
       - name: Install dependencies and run tests
         run: |
-          gem install bundler aws-sdk-kinesis
+          gem install bundler aws-sdk-kinesis aws-kclrb
           if [ "${{ matrix.os }}" != "windows-latest" ]; then gem install rake; fi
           bundle install
           bundle update --bundler
