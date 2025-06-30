@@ -133,23 +133,22 @@ jobs:
         env:
           STREAM_NAME: ${{ env.STREAM_NAME }}
 
-#      - name: Running KCL producer
-#        run: |
-#          cd samples
-#          rake "run_producer[10]" -d 1
+      # Run sample KCL application
+      - name: Start KCL application
+        run: |
+          chmod +x .github/scripts/start_kcl.sh
+          .github/scripts/start_kcl.sh
+        env:
+          RUNNER_OS: ${{ matrix.os }}
+          STREAM_NAME: ${{ env.STREAM_NAME }}
 
-#      - name: Running KCL consumer (windows or ubuntu)
-#        if: ${{ matrix.os != 'macOS-latest'}}
-#        run: |
-#          cd samples
-#          timeout 45 rake run properties_file=sample.properties || status="$?"; if (( status == 124 )); then exit 0; else exit 1; fi; exit "$status"
-#
-#      - name: Running KCL consumer (macOS)
-#        if: ${{ matrix.os == 'macOS-latest'}}
-#        run: |
-#          brew install coreutils
-#          cd samples
-#          gtimeout 45 rake run properties_file=sample.properties || status="$?"; if (( status == 124 )); then exit 0; else exit 1; fi; exit "$status"
+      # Check and verify results of KCL test
+      - name: Verify KCL Functionality
+        run: |
+          chmod +x .github/scripts/verify_kcl.sh
+          .github/scripts/verify_kcl.sh
+        env:
+          APP_NAME: ${{ env.APP_NAME }}
 
       # Clean up all existing Streams and DDB tables
       - name: Clean up Kinesis Stream and DynamoDB table
