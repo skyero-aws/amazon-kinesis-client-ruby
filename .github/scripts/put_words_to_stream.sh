@@ -2,7 +2,7 @@
 set -e
 
 cd samples
-ruby sample_kcl_producer.rb -t 10 -d 1 --stream-name $STREAM_NAME
+ruby sample_kcl_producer.rb -t 10 -d 1 --stream $STREAM_NAME
 
 # Get records from stream to verify they exist before continuing
 SHARD_ITERATOR=$(aws kinesis get-shard-iterator --stream-name $STREAM_NAME --shard-id shardId-000000000000 --shard-iterator-type TRIM_HORIZON --query 'ShardIterator' --output text)
