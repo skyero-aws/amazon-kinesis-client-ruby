@@ -10,8 +10,8 @@ elif [[ "$RUNNER_OS" == "Linux" || "$RUNNER_OS" == "Windows" ]]; then
   sed -i "s/kclrbsample/$STREAM_NAME/g" .github/resources/sample.properties
   sed -i "s/RubyKCLSample/$APP_NAME/g" .github/resources/sample.properties
   if [[ "$RUNNER_OS" == "Windows" ]]; then
-    echo '@echo off' > .github/resources/run_script.bat
-    echo 'ruby %~dp0..\..\samples\sample_kcl.rb %*' >> .github/resources/run_script.bat
+    echo '@echo off' > samples/run_script.bat
+    echo 'ruby %~dp0sample_kcl.rb %*' >> samples/run_script.bat
     sed -i 's/executableName = sample_kcl.rb/executableName = run_script.bat/' .github/resources/sample.properties
   fi
 else
